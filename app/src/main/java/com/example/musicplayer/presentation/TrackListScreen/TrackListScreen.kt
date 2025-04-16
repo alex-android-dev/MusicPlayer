@@ -36,7 +36,9 @@ fun TrackListView(
     val viewModel: TrackListViewModel = viewModel()
     val screenState = viewModel.screenState.collectAsState(TrackListScreenState.Initial)
 
-    Column {
+    Column(
+        modifier = Modifier.padding(padding)
+    ) {
         val searchText =
             remember {
                 mutableStateOf("")
@@ -46,7 +48,6 @@ fun TrackListView(
 
         SearchBar(
             modifier = Modifier
-                .padding(10.dp)
                 .fillMaxWidth(),
             inputField = {
                 SearchBarDefaults.InputField(
@@ -73,7 +74,7 @@ fun TrackListView(
             // TODO доделать реализацию поиска
         }
 
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
 
         when (val state = screenState.value) {
             is TrackListScreenState.Initial -> {}
