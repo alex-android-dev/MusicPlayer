@@ -40,7 +40,11 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.gson)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.logging.interceptor)
+    implementation(libs.retrofit)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
