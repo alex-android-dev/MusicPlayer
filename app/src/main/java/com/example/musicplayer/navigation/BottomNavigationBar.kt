@@ -12,22 +12,21 @@ import com.example.musicplayer.presentation.main.NavigationItem
 
 @Composable
 fun BottomNavigationBar(
-    navHostController: NavHostController
+    navState: NavigationState,
 ) {
     val items = listOf(NavigationItem.Api, NavigationItem.Downloaded)
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background
     ) {
-        val navBackStackEntry = navHostController.currentBackStackEntryAsState().value
-
+        val navBackStackEntry = navState.navHostController.currentBackStackEntryAsState().value
         val currentRoute = navBackStackEntry?.destination?.route
 
         items.forEach { item ->
             // Функция размещает кнопки и дает возможность управлять навигацией
             NavigationBarItem(
                 selected = item.screen.route == currentRoute,
-                onClick = { navHostController.navigate(item.screen.route) },
+                onClick = { navState.navigateTo(item.screen.route) },
                 icon = {
                     Icon(
                         painter = painterResource(item.iconResourceId),
