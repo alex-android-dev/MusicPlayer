@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.compose.v310)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.gson)
