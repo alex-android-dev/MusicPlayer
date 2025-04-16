@@ -1,6 +1,5 @@
 package com.example.musicplayer.presentation.theme
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.example.musicplayer.R
+import coil3.compose.AsyncImage
 import com.example.musicplayer.domain.Entities.Track
 
 @Composable
@@ -32,13 +30,14 @@ fun TrackCard(track: Track) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .size(50.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxSize(),
-            painter = painterResource(track.defaultCoverResId),
-            contentDescription = null // todo установить
+            model = track.coverUrl,
+            contentScale = ContentScale.Fit,
+            contentDescription = null,
         )
 
         Spacer(modifier = Modifier.width(10.dp))
@@ -51,23 +50,5 @@ fun TrackCard(track: Track) {
             Text(track.name)
         }
     }
-
-}
-
-// todo настроить цвета текста в зависимости от цвета
-
-@Composable
-@Preview
-fun TrackCardPreview() {
-    val track = Track(
-        name = "Game is Over",
-        author = "Metallica",
-        defaultCoverResId = R.drawable.cover_test,
-        coverUrl = "",
-        id = 0,
-        compositionUrl = "",
-    )
-
-    TrackCard(track)
 
 }
