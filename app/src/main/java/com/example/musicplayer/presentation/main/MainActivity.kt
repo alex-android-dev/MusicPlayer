@@ -10,14 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.example.musicplayer.domain.Entities.Track
 import com.example.musicplayer.navigation.BottomNavigationBar
 import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.musicplayer.presentation.TrackListScreen.TrackListScreenState
@@ -44,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
                     padding
 
-                    PlayerScreen(applicationContext)
+                    PlayerScreenTest(applicationContext)
 
 //                    AppNavGraph(
 //                        navHostController = navState.navHostController,
@@ -59,43 +55,26 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun PlayerScreen(context: Context) {
+fun PlayerScreenTest(context: Context) {
 
     val viewModel: TrackListViewModel = viewModel()
     val screenState = viewModel.screenState.collectAsState(TrackListScreenState.Initial)
+    Player.initPLayer(context)
 
-    when (val value = screenState.value) {
+    when (val state = screenState.value) {
         is TrackListScreenState.Tracks -> {
-            val player = remember {
-                ExoPlayer.Builder(context).build().apply {
 
-                    val trackList = value.trackList
-
-                    trackList.forEachIndexed { index, track ->
-                        val mediaItem = MediaItem.fromUri(track.compositionUrl)
-                        if (index == 0) {
-                            setMediaItem(mediaItem)
-                        } else {
-                            addMediaItem(mediaItem)
-                        }
-                    }
-
-                    prepare()
-                    playWhenReady = true
-                }
-            }
+            Player.playTracks(state.trackList)
 
             AndroidView(factory = {
-                PlayerView(
-                    context
-                ).apply {
-                    this.player = player
+                PlayerView(context).apply {
+                    this.player = Player.getPlayer()
                 }
             })
 
             DisposableEffect(Unit) {
                 onDispose {
-                    player.release()
+                    Player.releasePlayer()
                 }
             }
         }
