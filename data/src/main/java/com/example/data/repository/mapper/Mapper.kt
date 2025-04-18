@@ -1,9 +1,9 @@
-package com.example.musicplayer.data.mapper
+package com.example.data.repository.mapper
 
-import com.example.musicplayer.data.model.ChartContentDto
-import com.example.musicplayer.domain.Entities.Track
+import com.example.data.repository.model.ChartContentDto
+import com.example.domain.entities.Track
 
-class Mapper {
+internal class Mapper {
 
     fun mapChartContentToTrackList(chartContent: ChartContentDto): List<Track> {
 
@@ -12,8 +12,8 @@ class Mapper {
         chartContent.tracksContentDto.trackListDto.forEach { trackDto ->
 
             val track = Track(
-                name = trackDto.name,
-                author = trackDto.artist.name,
+                compositionName = trackDto.name,
+                authorName = trackDto.artist.name,
                 coverUrl = trackDto.album.cover,
                 compositionUrl = trackDto.compositionUrl,
                 id = trackDto.id,

@@ -1,8 +1,8 @@
-package com.example.musicplayer.data.model
+package com.example.data.repository.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ArtistDto(
+internal data class ArtistDto(
     @SerializedName("id") val id : Long,
     @SerializedName("name") val name : String,
 )

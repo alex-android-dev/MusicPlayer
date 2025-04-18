@@ -1,7 +1,7 @@
-package com.example.musicplayer.data.model
+package com.example.data.repository.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ChartContentDto(
+internal data class ChartContentDto(
     @SerializedName("tracks") val tracksContentDto : TracksContentDto
 )

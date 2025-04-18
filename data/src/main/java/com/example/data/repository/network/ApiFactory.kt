@@ -1,4 +1,4 @@
-package com.example.musicplayer.data.network
+package com.example.data.repository.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +8,7 @@ import retrofit2.create
 
 private const val BASE_URL = "https://api.deezer.com/"
 
-object ApiFactory {
+internal object ApiFactory {
 
     private val client = OkHttpClient.Builder().addInterceptor(
         HttpLoggingInterceptor().apply {
