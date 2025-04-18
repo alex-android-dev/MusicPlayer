@@ -10,25 +10,6 @@ class TrackRepositoryImpl() : TrackRepository {
     private val mapper = Mapper()
     private val apiService = ApiFactory.apiService
 
-    /*
-    private val _trackList = mutableListOf<Track>()
-    private val trackList
-        get() = _trackList.toList()
-
-    val loadedListTracks = flow {
-        val response = apiService.loadChartTracks()
-        val tracks = mapper.mapChartContentToTrackList(response)
-
-        _trackList.addAll(tracks)
-        emit(trackList)
-    }
-
-
-
-    val tracks: StateFlow<List<Track>> = loadedListTracks.stateIn(
-        scope = scope, started = SharingStarted.Lazily, initialValue = trackList
-    )
-*/
     override suspend fun getTrackList(): Pair<Boolean, List<Track>> {
         return try {
             val response = apiService.loadChartTracks()
