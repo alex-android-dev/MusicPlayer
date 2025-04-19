@@ -38,6 +38,7 @@ fun PLayerScreen(
     progress: Float,
     onProgressCallback: (Float) -> Unit,
     isMusicPlaying: Boolean,
+    onPreviousCallback: () -> Unit,
     onStartCallback: () -> Unit,
     onNextCallback: () -> Unit,
 ) {
@@ -46,17 +47,20 @@ fun PLayerScreen(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+//            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             AuthorInfo(
                 track = musicItem,
                 modifier = Modifier.weight(1f)
             )
-            MiniPlayerControls(
+
+            PlayerControls(
+                modifier = Modifier.weight(2f),
                 isMusicPlaying = isMusicPlaying,
                 onStartCallback = onStartCallback,
-                onNextCallback = onNextCallback
+                onPreviousCallback = onPreviousCallback,
+                onNextCallback = onNextCallback,
             )
         }
         Slider(
@@ -70,9 +74,10 @@ fun PLayerScreen(
 }
 
 @Composable
-private fun MiniPlayerControls(
+private fun PlayerControls(
     modifier: Modifier = Modifier,
     isMusicPlaying: Boolean,
+    onPreviousCallback: () -> Unit,
     onStartCallback: () -> Unit,
     onNextCallback: () -> Unit,
 ) {
@@ -81,6 +86,16 @@ private fun MiniPlayerControls(
             .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
+        Icon(
+            painter = painterResource(R.drawable.ic_return_previously),
+            contentDescription = "previous",
+            modifier = Modifier
+                .clickable {
+                    onPreviousCallback()
+                }
+        )
+
         PlayerIcon(
             icon = (if (isMusicPlaying) {
                 ImageVector.vectorResource(id = R.drawable.ic_pause)
@@ -113,7 +128,7 @@ private fun AuthorInfo(
         modifier = modifier.padding(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (track.compositionUrl != null) {
+        if (!track.compositionUrl.isEmpty()) {
             AsyncImage(
                 model = track.compositionUrl,
                 contentDescription = null,
@@ -182,11 +197,12 @@ private fun PreviewMiniPlayer() {
 
             PLayerScreen(
                 musicItem = track,
-                progress = 0.1f,
+                progress = 50f,
                 onProgressCallback = {},
                 isMusicPlaying = false,
                 onStartCallback = {},
-                onNextCallback = {}
+                onNextCallback = {},
+                onPreviousCallback = {}
             )
 
         }
