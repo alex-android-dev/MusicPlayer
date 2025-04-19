@@ -4,6 +4,7 @@ import DarkBlue
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,18 +21,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
+import com.example.domain.interactors.TrackListInteractor
 import com.example.presentation.components.SearchTrack
 import com.example.presentation.presentation.theme.TrackCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackListView(
-    viewModel: TrackListViewModel
+    paddingValues: PaddingValues,
+    trackListInteractor: TrackListInteractor,
 ) {
+    val viewModel: TrackListViewModel = viewModel(
+        factory = TrackListViewModelFactory(trackListInteractor)
+    )
+
     val screenState = viewModel.trackListStatus.collectAsState()
 
     Column(
+        Modifier.padding(paddingValues)
     ) {
         /** Стейт для поиска **/
         val searchText = remember { mutableStateOf("") }
