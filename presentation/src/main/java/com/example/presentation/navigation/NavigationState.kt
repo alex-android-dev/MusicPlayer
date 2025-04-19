@@ -5,9 +5,8 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
-/*
-Класс используем с целью разделения ответственности в presentation слое
- */
+
+/** State Навигации **/
 
 class NavigationState(
     val navHostController: NavHostController,

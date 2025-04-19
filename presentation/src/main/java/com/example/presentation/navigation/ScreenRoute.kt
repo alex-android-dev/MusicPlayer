@@ -1,11 +1,10 @@
 package com.example.presentation.navigation
 
-sealed class Screen(
+sealed class ScreenRoute(
     val route: String
 ) {
-
-    object TrackListApi : Screen(ROUTE_TRACK_LIST_API)
-    object TrackListDownloaded : Screen(ROUTE_TRACK_LIST_DOWNLOADED)
+    object TrackListApi : ScreenRoute(ROUTE_TRACK_LIST_API)
+    object TrackListDownloaded : ScreenRoute(ROUTE_TRACK_LIST_DOWNLOADED)
 
 
     private companion object {

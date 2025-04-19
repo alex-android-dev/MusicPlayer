@@ -40,6 +40,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+    implementation(project(":data"))
+
+
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.dash)
@@ -67,4 +72,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(kotlin("test"))
 }

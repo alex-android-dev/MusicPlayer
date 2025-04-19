@@ -16,21 +16,21 @@ fun AppNavGraph(
 
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TrackListApi.route,
+        startDestination = ScreenRoute.TrackListApi.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None }
     ) {
 
         // Вызов экрана треков по API
         composable(
-            route = Screen.TrackListApi.route,
+            route = ScreenRoute.TrackListApi.route,
         ) {
             trackListApiContent()
         }
 
         // Вызов экрана загруженных треков
         composable(
-            route = Screen.TrackListDownloaded.route,
+            route = ScreenRoute.TrackListDownloaded.route,
         ) {
             trackListDownloadedContent()
         }

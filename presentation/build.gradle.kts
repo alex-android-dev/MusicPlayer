@@ -35,9 +35,10 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    implementation(libs.kotlinx.coroutines.core)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.navigation.compose)
-
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)

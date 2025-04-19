@@ -15,4 +15,5 @@
         android:theme="@style/Theme.MusicPlayer"
         tools:targetApi="31" />
 
+
 </manifest>

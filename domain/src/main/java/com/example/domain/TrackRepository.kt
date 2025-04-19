@@ -1,6 +1,7 @@
 package com.example.domain
 
 import com.example.domain.entities.Track
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * Репозиторий для управления логикой работы
@@ -8,9 +9,9 @@ import com.example.domain.entities.Track
 
 interface TrackRepository {
     /**
-     * Boolean - успех / не успех
+     * Result - успех / не успех
      */
-    suspend fun getTrackList(): Pair<Boolean, List<Track>>
+    suspend fun getTrackList(): Result<List<Track>>
 
     /* TODO
     suspend fun getTracksByAlbum(id: Long): Pair<Boolean, List<Track>>=
