@@ -10,11 +10,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.presentation.navigation.AppNavGraph
 import com.example.presentation.navigation.BottomNavigationBar
 import com.example.presentation.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list.TrackListView
+import com.example.presentation.track_list.TrackListViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navState = rememberNavigationState()
+            val viewModel: TrackListViewModel = viewModel()
 
             MusicPlayerTheme {
                 Scaffold(
@@ -34,8 +37,8 @@ class MainActivity : ComponentActivity() {
                     padding
                     AppNavGraph(
                         navHostController = navState.navHostController,
-                        trackListApiContent = { TrackListView() },
-                        trackListDownloadedContent = {  },
+                        trackListApiContent = { TrackListView(viewModel) },
+                        trackListDownloadedContent = { },
                     )
                 }
             }
