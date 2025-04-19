@@ -40,14 +40,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+    implementation(project(":data"))
+
+
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
-    implementation(libs.coil.compose.v310)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.compose.coil)
+    implementation(libs.compose.coil.network.okhttp)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.compose.viewmodel)
     implementation(libs.gson)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.logging.interceptor)
@@ -67,4 +72,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(kotlin("test"))
 }
