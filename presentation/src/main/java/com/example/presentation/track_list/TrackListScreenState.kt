@@ -1,6 +1,6 @@
 package com.example.presentation.presentation.TrackListScreen
 
-import com.example.musicplayer.domain.Entities.Track
+import com.example.domain.entities.Track
 
 sealed class TrackListScreenState {
 

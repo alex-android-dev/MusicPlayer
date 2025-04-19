@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.musicplayer.domain.Entities.Track
+import com.example.domain.entities.Track
 
 @Composable
 fun TrackCard(track: Track) {
@@ -45,9 +45,9 @@ fun TrackCard(track: Track) {
         Column(
             modifier = Modifier
         ) {
-            Text(track.author)
+            Text(track.authorName)
             Spacer(modifier = Modifier.height(2.dp))
-            Text(track.name)
+            Text(track.compositionName)
         }
     }
 

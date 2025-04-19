@@ -21,26 +21,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.ui.PlayerView
-import com.example.presentation.navigation.BottomNavigationBar
-import com.example.presentation.navigation.rememberNavigationState
 import com.example.presentation.presentation.TrackListScreen.TrackListScreenState
-import com.example.presentation.presentation.TrackListScreen.TrackListViewModel
-import com.example.presentation.presentation.theme.MusicPlayerTheme
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 
 class MainActivity : ComponentActivity() {
 
     @SuppressLint("PermissionLaunchedDuringComposition")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
+            /*
             val navState = rememberNavigationState()
             val viewModel: TrackListViewModel = viewModel()
             viewModel.screenState
@@ -69,11 +61,13 @@ class MainActivity : ComponentActivity() {
 //                    ) // TODO наш AppNavGraph
                 }
             }
+
+             */
         }
     }
 }
 
-
+/*
 @Composable
 fun PlayerScreenTest(context: Context) {
 
@@ -118,3 +112,4 @@ fun PlayerScreenTest(context: Context) {
 //        ) != Manifest.permission.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 //    )
 //}
+*/

@@ -1,4 +1,5 @@
-package com.example.presentation.presentation.main
+package com.example.presentation.main
+/*
 
 import android.content.Context
 import androidx.compose.runtime.MutableState
@@ -6,7 +7,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.musicplayer.domain.Entities.Track
 import kotlinx.coroutines.flow.MutableStateFlow
-
 object AppMusicPlayer {
     private var _player: ExoPlayer? = null
 
@@ -66,3 +66,6 @@ object AppMusicPlayer {
         _player?.release()
     }
 }
+
+
+ */

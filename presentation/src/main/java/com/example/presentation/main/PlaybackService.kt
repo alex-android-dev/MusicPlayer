@@ -1,16 +1,6 @@
-package com.example.presentation.presentation.main
+package com.example.presentation.main
 
-import android.R
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
-import android.content.Intent
-import android.os.Binder
-import android.os.IBinder
-import android.util.Log
-import androidx.core.app.NotificationCompat
-
+/*
 class PlaybackService : Service() {
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
@@ -91,3 +81,5 @@ class PlaybackService : Service() {
     }
 
 }
+
+ */

@@ -1,5 +1,6 @@
-package com.example.presentation.presentation.TrackListScreen
+package com.example.presentation.track_list
 
+import DarkBlue
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,26 +26,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.presentation.presentation.theme.DarkBlue
+import com.example.presentation.presentation.TrackListScreen.TrackListScreenState
 import com.example.presentation.presentation.theme.TrackCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackListView(
-    padding: PaddingValues,
+//    viewModel: TrackListViewModel, // TODO
 ) {
-    val viewModel: TrackListViewModel = viewModel()
-    val screenState = viewModel.screenState.collectAsState(TrackListScreenState.Initial)
+//    val viewModel: TrackListViewModel = viewModel()
+//    val screenState = viewModel.screenState.collectAsState(TrackListScreenState.Initial)
 
     Column(
-        modifier = Modifier.padding(padding)
     ) {
-        val searchText =
-            remember {
-                mutableStateOf("")
-            }
-        val expanded =
-            remember { mutableStateOf(false) }
+        /** Стейт для поиска **/
+        val searchText = remember { mutableStateOf("") }
+        val expanded = remember { mutableStateOf(false) }
 
         SearchBar(
             modifier = Modifier
@@ -76,37 +73,37 @@ fun TrackListView(
 
         Spacer(Modifier.height(20.dp))
 
-        when (val state = screenState.value) {
-            is TrackListScreenState.Initial -> {}
-
-            is TrackListScreenState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = DarkBlue)
-                    Log.d("TrackListView", "Loading")
-                }
-            }
-
-            is TrackListScreenState.Tracks -> {
-
-                val lazyStateList = rememberLazyListState()
-
-                LazyColumn(
-                    modifier = Modifier.padding(),
-                    state = lazyStateList
-                ) {
-
-                    items(
-                        items = state.trackList,
-                        key = { it.id },
-                    ) {
-                        TrackCard(it)
-                    }
-
-                }
-            }
-        }
+//        when (val state = screenState.value) {
+//            is TrackListScreenState.Initial -> {}
+//
+//            is TrackListScreenState.Loading -> {
+//                Box(
+//                    modifier = Modifier.fillMaxSize(),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    CircularProgressIndicator(color = DarkBlue)
+//                    Log.d("TrackListView", "Loading")
+//                }
+//            }
+//
+//            is TrackListScreenState.Tracks -> {
+//
+//                val lazyStateList = rememberLazyListState()
+//
+//                LazyColumn(
+//                    modifier = Modifier.padding(),
+//                    state = lazyStateList
+//                ) {
+//
+//                    items(
+//                        items = state.trackList,
+//                        key = { it.id },
+//                    ) {
+//                        TrackCard(it)
+//                    }
+//
+//                }
+//            }
+//        }
     }
 }

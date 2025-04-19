@@ -1,6 +1,5 @@
-package com.example.presentation.presentation.main
+package com.example.presentation.main
 
-import com.example.musicplayer.R
 import com.example.presentation.navigation.Screen
 
 sealed class NavigationItem(
@@ -10,12 +9,12 @@ sealed class NavigationItem(
 
     object Api : NavigationItem(
         screen = Screen.TrackListApi,
-        iconResourceId = R.drawable.ic_music_note,
+        iconResourceId = 0, // TODO
     )
 
     object Downloaded : NavigationItem(
         screen = Screen.TrackListDownloaded,
-        iconResourceId = R.drawable.ic_downloaded,
+        iconResourceId = 0,
     )
 
 }

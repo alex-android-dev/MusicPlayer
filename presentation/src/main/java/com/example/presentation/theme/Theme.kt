@@ -1,4 +1,4 @@
-package com.example.presentation.presentation.theme
+package com.example.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,6 +10,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import Typography
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color.White,
