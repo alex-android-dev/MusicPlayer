@@ -1,10 +1,9 @@
-package com.example.presentation.track_list
+package com.example.presentation.track_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.TrackListState
 import com.example.domain.interactors.TrackListInteractor
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

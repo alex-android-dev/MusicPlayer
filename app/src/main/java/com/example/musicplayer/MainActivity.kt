@@ -14,7 +14,7 @@ import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.BottomNavigationBar
 import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
-import com.example.presentation.track_list.TrackListView
+import com.example.presentation.track_list_screen.TrackListView
 
 class MainActivity : ComponentActivity() {
 

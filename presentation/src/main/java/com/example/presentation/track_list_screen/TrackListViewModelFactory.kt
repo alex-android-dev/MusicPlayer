@@ -1,4 +1,4 @@
-package com.example.presentation.track_list
+package com.example.presentation.track_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

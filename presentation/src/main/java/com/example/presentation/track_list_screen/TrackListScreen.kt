@@ -1,4 +1,4 @@
-package com.example.presentation.track_list
+package com.example.presentation.track_list_screen
 
 import DarkBlue
 import android.util.Log
@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
 import com.example.domain.interactors.TrackListInteractor
 import com.example.presentation.presentation.theme.TrackCard
-import com.example.presentation.track_list.components.SearchTrack
+import com.example.presentation.track_list_screen.components.SearchTrack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
