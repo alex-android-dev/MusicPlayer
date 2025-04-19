@@ -2,7 +2,9 @@ package com.example.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.domain.entities.Track
 import com.example.presentation.R
@@ -30,35 +33,53 @@ internal fun TrackInfoComponents(
 
         Surface(shape = MaterialTheme.shapes.large) {
             AsyncImage(
-                modifier = Modifier.size(350.dp),
+                modifier = Modifier.fillMaxWidth(),
                 model = track?.coverUrl,
-                contentDescription = null,
+                contentDescription = "song cover", // TODO
                 error = painterResource(icStubCover),
                 placeholder = painterResource(icStubCover),
                 fallback = painterResource(icStubCover),
             )
         }
 
-        track?.let {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    track.compositionName,
-                )
-                Text(
-                    track.albumName
-                )
-                Text(
-                    track.authorName,
-                )
-            }
-        }
+        Spacer(Modifier.height(10.dp))
 
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            TrackInfo(
+                track?.compositionName ?: "",
+            )
+
+            Spacer(Modifier.height(5.dp))
+
+            TrackInfo(
+                track?.albumName ?: "",
+            )
+
+            Spacer(Modifier.height(5.dp))
+
+            TrackInfo(
+                track?.authorName ?: "",
+            )
+        }
     }
 
+}
+
+@Composable
+private fun TrackInfo(str: String) {
+    val text = if (str.isEmpty()) ""
+    else str
+
+
+    Text(
+        text,
+        fontSize = 20.sp
+    )
 }
 
 
