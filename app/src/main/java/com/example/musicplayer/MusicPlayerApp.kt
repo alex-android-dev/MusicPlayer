@@ -6,7 +6,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.domain.TrackRepository
 import com.example.domain.interactors.TrackListInteractor
-import com.example.presentation.track_list.ProvideViewModel
 import com.example.presentation.track_list.TrackListViewModel
 import com.example.presentation.track_list.TrackListViewModelFactory
 

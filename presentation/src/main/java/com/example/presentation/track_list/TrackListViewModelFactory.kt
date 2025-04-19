@@ -11,5 +11,4 @@ class TrackListViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return TrackListViewModel(trackListInteractor) as T
     }
-
 }

@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
 import com.example.domain.interactors.TrackListInteractor
-import com.example.presentation.components.SearchTrack
 import com.example.presentation.presentation.theme.TrackCard
+import com.example.presentation.track_list.components.SearchTrack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

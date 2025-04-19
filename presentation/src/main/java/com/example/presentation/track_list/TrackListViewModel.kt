@@ -14,12 +14,9 @@ class TrackListViewModel(
     private val trackListInteractor: TrackListInteractor,
 ) : ViewModel() {
 
-    private val backTrackListStatus = MutableStateFlow<TrackListState>(TrackListState.Initial)
-
     init {
         loadTrackList()
     }
-
 
     /** Получение данных из домейн слоя **/
     val trackListStatus = trackListInteractor.trackListStatus.stateIn(
@@ -30,10 +27,6 @@ class TrackListViewModel(
 
     fun loadTrackList() = viewModelScope.launch {
         trackListInteractor.loadTrackList()
-    }
-
-    companion object {
-
     }
 
 }
