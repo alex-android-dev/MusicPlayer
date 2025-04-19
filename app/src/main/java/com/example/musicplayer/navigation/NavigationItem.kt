@@ -1,7 +1,6 @@
-package com.example.presentation.navigation
+package com.example.musicplayer.navigation
 
 import com.example.presentation.R
-import com.example.presentation.navigation.ScreenRoute
 
 sealed class NavigationItem(
     val screen: ScreenRoute,

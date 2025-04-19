@@ -1,4 +1,4 @@
-package com.example.presentation.navigation
+package com.example.musicplayer.navigation
 
 sealed class ScreenRoute(
     val route: String

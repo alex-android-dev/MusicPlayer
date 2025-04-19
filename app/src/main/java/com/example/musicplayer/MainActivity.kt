@@ -1,6 +1,5 @@
-package com.example.presentation
+package com.example.musicplayer
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.presentation.navigation.AppNavGraph
-import com.example.presentation.navigation.BottomNavigationBar
-import com.example.presentation.navigation.rememberNavigationState
+import com.example.data.repository.TrackRepositoryImpl
+import com.example.domain.interactors.TrackListInteractor
+import com.example.musicplayer.navigation.BottomNavigationBar
+import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list.TrackListView
 import com.example.presentation.track_list.TrackListViewModel
+import com.example.presentation.track_list.TrackListViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -27,7 +28,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navState = rememberNavigationState()
-            val viewModel: TrackListViewModel = viewModel()
+            val repositoryImpl = TrackRepositoryImpl()
+            val trackListInteractor = TrackListInteractor(repositoryImpl)
+
+            val viewModel: TrackListViewModel = viewModel(
+                factory = TrackListViewModelFactory(trackListInteractor)
+            )
 
             MusicPlayerTheme {
                 Scaffold(

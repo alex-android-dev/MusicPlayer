@@ -1,4 +1,4 @@
-package com.example.presentation.navigation
+package com.example.musicplayer.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

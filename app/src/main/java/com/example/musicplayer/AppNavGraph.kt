@@ -1,4 +1,4 @@
-package com.example.presentation.navigation
+package com.example.musicplayer
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.musicplayer.navigation.ScreenRoute
 
 @Composable
 fun AppNavGraph(
