@@ -11,7 +11,7 @@ interface TrackRepository {
      * Result - успех / не успех
      */
 
-    suspend fun getTrackList(): Result<List<Track>>
+    suspend fun getChartTrackList(): Result<List<Track>>
     suspend fun getTracksByAlbum(id: Long): Result<List<Track>>
     suspend fun getTracksByName(name: String): Result<List<Track>>
     suspend fun getTrackById(id: Long): Result<Track>

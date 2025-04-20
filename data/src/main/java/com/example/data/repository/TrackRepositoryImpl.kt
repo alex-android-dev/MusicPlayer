@@ -16,7 +16,7 @@ class TrackRepositoryImpl() : TrackRepository {
     private val apiService = ApiFactory.apiService
 
     /** Метод возвращает результат в виде List / Track или ошибку **/
-    override suspend fun getTrackList(): Result<List<Track>> = withContext(Dispatchers.IO) {
+    override suspend fun getChartTrackList(): Result<List<Track>> = withContext(Dispatchers.IO) {
         val response: ResponseContentDto? =
             apiService.loadChartTracks()
         if (response == null) return@withContext throwTracksNetworkError()
@@ -33,7 +33,7 @@ class TrackRepositoryImpl() : TrackRepository {
 
     override suspend fun getTracksByAlbum(id: Long): Result<List<Track>> =
         withContext(Dispatchers.IO) {
-            val response: ResponseContentDto? = apiService.loadTrackListByAlbum(id.toString())
+            val response: ResponseContentDto? = apiService.loadTrackListByAlbumId(id.toString())
 
             if (response == null) return@withContext throwTracksNetworkError()
 
@@ -52,7 +52,7 @@ class TrackRepositoryImpl() : TrackRepository {
     override suspend fun getTracksByName(name: String): Result<List<Track>> =
         withContext(Dispatchers.IO) {
 
-            val response: TracksContentDto? = apiService.loadTrackByName(name)
+            val response: TracksContentDto? = apiService.loadTrackListByName(name)
 
             if (response == null) return@withContext throwTracksNetworkError()
 
@@ -67,7 +67,7 @@ class TrackRepositoryImpl() : TrackRepository {
         }
 
     override suspend fun getTrackById(id: Long): Result<Track> = withContext(Dispatchers.IO) {
-        val response: TrackDto? = apiService.loadTrackById(id.toString())
+        val response: TrackDto? = apiService.loadTrackByTrackId(id.toString())
 
         if (response == null) return@withContext throwTrackNetworkError()
 

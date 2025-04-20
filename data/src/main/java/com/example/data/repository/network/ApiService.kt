@@ -14,12 +14,12 @@ internal interface ApiService {
     suspend fun loadChartTracks(): ResponseContentDto
 
     @GET("search")
-    suspend fun loadTrackByName(@Query("q") name: String): TracksContentDto
+    suspend fun loadTrackListByName(@Query("q") name: String): TracksContentDto
 
     @GET("track/{id}")
-    suspend fun loadTrackById(@Path("id") id: String): TrackDto
+    suspend fun loadTrackByTrackId(@Path("id") id: String): TrackDto
 
     @GET("album/{id}")
-    suspend fun loadTrackListByAlbum(@Path("id") id: String): ResponseContentDto
+    suspend fun loadTrackListByAlbumId(@Path("id") id: String): ResponseContentDto
 
 }
