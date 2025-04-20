@@ -35,7 +35,8 @@ fun TrackScreen(
         topBar = {
             TopBar(
                 imgVector = Icons.AutoMirrored.Filled.ArrowBack,
-                onIconClickListener = { onBackPressed() }
+                onIconClickListener = { onBackPressed() },
+                text = "Media Player"
             )
         }
     ) { padding ->

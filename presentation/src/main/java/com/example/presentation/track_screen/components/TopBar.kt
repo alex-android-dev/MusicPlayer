@@ -13,11 +13,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
+    text: String,
     imgVector: ImageVector,
-    onIconClickListener: () -> Unit
+    onIconClickListener: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text(text = "Music Player") },
+        title = { Text(text = text) },
         navigationIcon = {
             IconButton(onClick = { }) {
                 Icon(
