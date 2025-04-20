@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 
 fun NavGraphBuilder.trackLocalNavGraph(
     trackLocalListContent: @Composable () -> Unit,
-    playTrackContent: @Composable () -> Unit,
+    playTrackContent: @Composable (Long) -> Unit,
 ) {
 
     navigation(
@@ -19,7 +19,8 @@ fun NavGraphBuilder.trackLocalNavGraph(
         }
 
         composable(ScreenRoute.PlayTrack.route) {
-            playTrackContent()
+            val trackId = it.arguments?.getString("track_id")?.toLong() ?: 0L
+            playTrackContent(trackId)
         }
     }
 }

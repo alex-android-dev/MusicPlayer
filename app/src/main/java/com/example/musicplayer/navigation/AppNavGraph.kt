@@ -13,7 +13,7 @@ fun AppNavGraph(
     navHostController: NavHostController,
     trackApiListContent: @Composable () -> Unit,
     trackLocalListContent: @Composable () -> Unit,
-    playTrackContent: @Composable () -> Unit, // TODO подумать что сюда передавать. album id
+    playTrackContent: @Composable (Long) -> Unit, // TODO подумать что сюда передавать. album id
 ) {
 
     NavHost(

@@ -2,6 +2,7 @@ package com.example.musicplayer
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.AppNavGraph
@@ -30,7 +32,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val trackId = remember { mutableLongStateOf(-1) }
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
@@ -38,7 +39,16 @@ class MainActivity : ComponentActivity() {
             MusicPlayerTheme {
                 Scaffold(
                     modifier = Modifier.Companion.fillMaxSize(),
-                    bottomBar = { BottomNavigationBar(navState) },
+                    bottomBar = {
+                        val currentRoute = navState.navHostController.currentBackStackEntryAsState()
+                            .value?.destination?.route
+
+                        if (currentRoute !=
+                            ScreenRoute.PlayTrack.route
+                        ) {
+                            BottomNavigationBar(navState)
+                        }
+                    },
                 ) { paddingValues ->
 
                     AppNavGraph(
@@ -47,17 +57,22 @@ class MainActivity : ComponentActivity() {
                             TrackListView(
                                 paddingValues,
                                 trackListInteractor,
-                                onClickTrack = {
-                                    trackId.value = it
-                                    navState.navigateTo(ScreenRoute.PlayTrack.route)
+                                onClickTrack = { trackId ->
+                                    navState.navigateToMusicPlayer(trackId)
                                 },
                             )
                         },
                         trackLocalListContent = {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
-                        playTrackContent = {
-                            TrackScreen(trackId.value)
+                        playTrackContent = { trackId ->
+                            Log.d("MainActivity", "trackId: $trackId")
+                            TrackScreen(
+                                trackId = trackId,
+                                onBackPressed = {
+                                    navState.navHostController.popBackStack()
+                                }
+                            )
                         },
                     )
                 }

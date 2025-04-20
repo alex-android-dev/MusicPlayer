@@ -13,7 +13,7 @@ sealed class NavigationItem(
     )
 
     object Downloaded : NavigationItem(
-        screen = ScreenRoute.TrackLocalList,
+        screen = ScreenRoute.TrackLocal,
         iconResourceId = R.drawable.ic_downloaded,
     )
 

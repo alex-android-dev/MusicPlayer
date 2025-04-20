@@ -12,7 +12,13 @@ sealed class ScreenRoute(
     object TrackLocalList : ScreenRoute(ROUTE_TRACK_LIST_DOWNLOADED)
 
     /** Экран с плеером **/
-    object PlayTrack : ScreenRoute(ROUTE_PLAY_TRACK)
+    object PlayTrack : ScreenRoute(ROUTE_PLAY_TRACK) {
+
+        /** Передача параметров **/
+        private const val ROUTE_FOR_ARGS = "play_track"
+        fun getRouteWithArgs(trackId: Long) = "$ROUTE_FOR_ARGS/$trackId"
+
+    }
 
 
     private companion object {
@@ -20,6 +26,6 @@ sealed class ScreenRoute(
         const val ROUTE_TRACK_LIST_API = "track_api_list"
         const val ROUTE_DOWNLOAD = "track_download"
         const val ROUTE_TRACK_LIST_DOWNLOADED = "track_list_downloaded"
-        const val ROUTE_PLAY_TRACK = "play_track"
+        const val ROUTE_PLAY_TRACK = "play_track/{track_id}"
     }
 }
