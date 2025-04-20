@@ -48,12 +48,12 @@ fun TrackListView(
         val expanded = remember { mutableStateOf(false) }
 
         SearchTrack(
-            searchText = searchText.value,
+            text = searchText.value,
             expanded = expanded.value,
             onSearchTextChanged = { searchText.value = it },
             onExpandedChange = { expanded.value = it },
             onSearchTextInput = {
-                Log.d("TrackListView", "text: ${searchText.value}")
+                viewModel.loadTrackListByName(searchText.value)
             },
         )
 
