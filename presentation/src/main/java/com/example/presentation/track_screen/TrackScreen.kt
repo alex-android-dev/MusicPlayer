@@ -56,11 +56,15 @@ fun TrackScreen(
                     trackProgress.value = it
                 },
                 isMusicPlaying = stateIsTrackPlaying.value,
-                onPreviousCallback = {}, //
+                onPreviousCallback = {
+                    // TODO
+                },
                 onStartCallback = {
                     stateIsTrackPlaying.value = !stateIsTrackPlaying.value
                 },
-                onNextCallback = {},
+                onNextCallback = {
+                    // TODO
+                },
             )
         }
     }

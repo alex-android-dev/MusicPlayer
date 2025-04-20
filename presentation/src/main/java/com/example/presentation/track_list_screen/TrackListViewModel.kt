@@ -18,7 +18,7 @@ class TrackListViewModel(
     }
 
     /** Получение данных из домейн слоя **/
-    val trackListStatus = trackListInteractor.trackListStatus.stateIn(
+    val trackListStatus = trackListInteractor.trackListState.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
         TrackListState.Initial

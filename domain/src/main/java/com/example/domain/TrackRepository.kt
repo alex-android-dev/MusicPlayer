@@ -12,7 +12,7 @@ interface TrackRepository {
      */
 
     suspend fun getChartTrackList(): Result<List<Track>>
-    suspend fun getTracksByAlbum(id: Long): Result<List<Track>>
+    suspend fun getTracksByAlbumId(id: Long): Result<List<Track>>
     suspend fun getTracksByName(name: String): Result<List<Track>>
     suspend fun getTrackById(id: Long): Result<Track>
 
