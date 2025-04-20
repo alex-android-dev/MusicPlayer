@@ -2,6 +2,7 @@ package com.example.presentation.track_screen.media_player
 
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.OptIn
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
@@ -19,22 +20,24 @@ class MediaService : MediaSessionService() {
     private lateinit var musicNotificationManager: MusicNotificationManager
 
 
-    @UnstableApi
     override fun onCreate() {
         super.onCreate()
 
-        val player = ExoPlayer.Builder(this)
-            .setAudioAttributes(getAudioAttributesForApp(), true)
-            .setHandleAudioBecomingNoisy(true)
-            .setTrackSelector(DefaultTrackSelector(this))
-            .build()
+        val player = getPlayer()
 
         mediaSession = MediaSession.Builder(this, player).build()
 
         musicNotificationManager = MusicNotificationManager(this, player)
     }
 
-    @UnstableApi
+    @OptIn(UnstableApi::class)
+    private fun getPlayer(): ExoPlayer = ExoPlayer.Builder(this)
+        .setAudioAttributes(getAudioAttributesForApp(), true)
+        .setHandleAudioBecomingNoisy(true)
+        .setTrackSelector(DefaultTrackSelector(this))
+        .build()
+
+    @OptIn(UnstableApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             musicNotificationManager.startMusicNotificationService(
