@@ -21,7 +21,7 @@ import com.example.musicplayer.navigation.ScreenRoute
 import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
-import com.example.presentation.track_screen.TrackScreen
+import com.example.presentation.track_screen.PlayTrackScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         },
                         playTrackContent = { trackId ->
                             Log.d("MainActivity", "trackId: $trackId")
-                            TrackScreen(
+                            PlayTrackScreen(
                                 trackId = trackId,
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()

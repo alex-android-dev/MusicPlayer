@@ -17,7 +17,7 @@ class TrackListViewModel(
         loadTrackList()
     }
 
-    /** Получение данных из домейн слоя **/
+    /** Получение данных из domain **/
     val trackListStatus = trackListInteractor.trackListState.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
