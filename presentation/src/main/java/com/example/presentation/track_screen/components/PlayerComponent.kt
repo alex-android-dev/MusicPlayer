@@ -1,4 +1,4 @@
-package com.example.presentation.components
+package com.example.presentation.track_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.presentation.R
 
 @Composable
-fun PLayerScreen(
+fun PlayerComponent(
     progress: Float,
     onProgressCallback: (Float) -> Unit,
     isMusicPlaying: Boolean,
@@ -134,7 +134,7 @@ private fun PreviewPLayer() {
     MaterialTheme {
         Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
 
-            PLayerScreen(
+            PlayerComponent(
                 progress = 50f,
                 onProgressCallback = {},
                 isMusicPlaying = false,

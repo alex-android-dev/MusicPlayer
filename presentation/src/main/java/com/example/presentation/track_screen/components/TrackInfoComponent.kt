@@ -1,4 +1,4 @@
-package com.example.presentation.components
+package com.example.presentation.track_screen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import com.example.domain.entities.Track
 import com.example.presentation.R
 
 @Composable
-internal fun TrackInfoComponents(
+internal fun TrackInfoComponent(
     track: Track?
 ) {
 
@@ -50,19 +50,19 @@ internal fun TrackInfoComponents(
         ) {
 
             TrackInfo(
-                track?.compositionName ?: "",
+                track?.compositionName ?: "Song name not found",
             )
 
             Spacer(Modifier.height(5.dp))
 
             TrackInfo(
-                track?.albumName ?: "",
+                track?.albumName ?: "Album name not found",
             )
 
             Spacer(Modifier.height(5.dp))
 
             TrackInfo(
-                track?.authorName ?: "",
+                track?.authorName ?: "Author name not found",
             )
         }
     }
@@ -96,7 +96,7 @@ private fun CurrentTrackInfoPreview(
         compositionUrl = ""
     )
 
-    TrackInfoComponents(
+    TrackInfoComponent(
         track = track
     )
 }

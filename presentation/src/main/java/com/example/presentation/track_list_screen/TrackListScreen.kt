@@ -16,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ import com.example.presentation.track_list_screen.components.SearchTrack
 fun TrackListView(
     paddingValues: PaddingValues,
     trackListInteractor: TrackListInteractor,
+    onClickTrack: (Long) -> Unit,
 ) {
     val viewModel: TrackListViewModel = viewModel(
         factory = TrackListViewModelFactory(trackListInteractor)
@@ -81,7 +83,12 @@ fun TrackListView(
                         items = state.trackList,
                         key = { it.id },
                     ) {
-                        TrackCard(it)
+                        TrackCard(
+                            it,
+                            onClickItem = { trackId ->
+                                onClickTrack(trackId)
+                            }
+                        )
                     }
 
                 }
