@@ -14,7 +14,8 @@ fun NavGraphBuilder.trackApiNavGraph(
         startDestination = ScreenRoute.TrackApiList.route,
         route = ScreenRoute.TrackApi.route,
     ) {
-        composable(ScreenRoute.TrackApi.route) {
+
+        composable(ScreenRoute.TrackApiList.route) {
             trackApiListContent()
         }
         composable(ScreenRoute.PlayTrack.route) {

@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
                         playTrackContent = {
-                            TrackScreen()
+                            TrackScreen(trackId.value)
                         },
                     )
                 }

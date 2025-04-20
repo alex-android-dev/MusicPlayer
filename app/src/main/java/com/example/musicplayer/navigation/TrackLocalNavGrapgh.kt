@@ -12,7 +12,7 @@ fun NavGraphBuilder.trackLocalNavGraph(
 
     navigation(
         startDestination = ScreenRoute.TrackLocalList.route,
-        route = ScreenRoute.TrackApi.route,
+        route = ScreenRoute.TrackLocal.route,
     ) {
         composable(ScreenRoute.TrackLocalList.route) {
             trackLocalListContent()
