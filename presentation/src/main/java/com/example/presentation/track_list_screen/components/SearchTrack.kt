@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.presentation.theme.MusicPlayerTheme
+import kotlin.math.exp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +22,7 @@ fun SearchTrack(
     expanded: Boolean,
     onSearchTextChanged: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit,
-    onSearchTextInput: (String) -> Unit,
+    onSearchTextInput: () -> Unit,
 ) {
 
     SearchBar(
@@ -32,8 +33,9 @@ fun SearchTrack(
                 onQueryChange = { text ->
                     onSearchTextChanged(text)
                 },
-                onSearch = { text ->
-                    onSearchTextInput(text)
+                onSearch = {
+                    onSearchTextInput()
+                    onExpandedChange(false)
                 },
                 expanded = expanded,
                 onExpandedChange = { isChange ->
@@ -51,8 +53,12 @@ fun SearchTrack(
             )
         },
         expanded = false,
-        onExpandedChange = {}
-    ) {}
+        onExpandedChange = { isChange ->
+            onExpandedChange(isChange)
+        }
+    ) {
+
+    }
 
 }
 

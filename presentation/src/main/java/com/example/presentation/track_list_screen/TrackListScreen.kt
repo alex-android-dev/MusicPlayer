@@ -16,7 +16,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,9 +50,12 @@ fun TrackListView(
         SearchTrack(
             searchText = searchText.value,
             expanded = expanded.value,
-            onSearchTextChanged = { },
-            onExpandedChange = { }
-        ) { }
+            onSearchTextChanged = { searchText.value = it },
+            onExpandedChange = { expanded.value = it },
+            onSearchTextInput = {
+                Log.d("TrackListView", "text: ${searchText.value}")
+            },
+        )
 
         Spacer(Modifier.height(20.dp))
 
@@ -71,7 +73,6 @@ fun TrackListView(
             }
 
             is TrackListState.Loaded -> {
-
                 val lazyStateList = rememberLazyListState()
 
                 LazyColumn(
