@@ -45,11 +45,11 @@ private suspend fun testTrackById(id: String): Track {
     return track
 }
 
-private suspend fun testTrackListByAlbum(name: String): List<Track> {
+private suspend fun testTrackListByAlbum(id: String): List<Track> {
     val apiService = ApiFactory.apiService
     val mapper = Mapper()
 
-    val response = apiService.loadTrackListByAlbum(name)
+    val response = apiService.loadTrackListByAlbum(id)
     val tracks =
         mapper.mapTrackListDtoToTrackList(response.tracksContentDto.trackListDto)
 
