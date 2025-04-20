@@ -42,8 +42,6 @@ fun TrackScreen(
         Column(
             modifier = Modifier.padding(padding)
         ) {
-            Text(trackId.toString())
-
             TrackInfoComponent(
                 track = null
             )
