@@ -1,7 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.repository.mapper.Mapper
-import com.example.data.repository.model.ChartContentDto
+import com.example.data.repository.model.ResponseContentDto
 import com.example.data.repository.network.ApiFactory
 import com.example.domain.TrackRepository
 import com.example.domain.entities.Track
@@ -15,18 +15,17 @@ class TrackRepositoryImpl() : TrackRepository {
 
     /** Метод возвращает результат в виде List или ошибку **/
     override suspend fun getTrackList(): Result<List<Track>> = withContext(Dispatchers.IO) {
-        val response: ChartContentDto? =
+        val response: ResponseContentDto? =
             apiService.loadChartTracks()
         if (response == null) return@withContext Result.failure<List<Track>>(Exception("Network error"))
 
-        val trackList = mapper.mapChartContentToTrackList(response)
+        val trackList = mapper.mapTrackListDtoToTrackList(response.tracksContentDto.trackListDto)
 
         return@withContext if (trackList.isEmpty()) {
             Result.failure<List<Track>>(Exception("No tracks found"))
         } else {
             Result.success(trackList)
         }
-
     }
 
 
