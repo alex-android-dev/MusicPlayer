@@ -6,6 +6,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
@@ -18,13 +19,20 @@ fun BottomNavigationBar(
         containerColor = MaterialTheme.colorScheme.background
     ) {
         val navBackStackEntry = navState.navHostController.currentBackStackEntryAsState().value
-        val currentRoute = navBackStackEntry?.destination?.route
 
+        /** Размещает кнопки и дает возможность управлять навигацией **/
         items.forEach { item ->
-            // Функция размещает кнопки и дает возможность управлять навигацией
+
+            /** Отслеживание роутов по иерархии **/
+            val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                it.route == item.screen.route
+            } ?: false
+
             NavigationBarItem(
-                selected = item.screen.route == currentRoute,
-                onClick = { navState.navigateTo(item.screen.route) },
+                selected = selected,
+                onClick = {
+                    if (!selected) navState.navigateTo(item.screen.route)
+                },
                 icon = {
                     Icon(
                         painter = painterResource(item.iconResourceId),
@@ -36,15 +44,4 @@ fun BottomNavigationBar(
         }
 
     }
-
-
 }
-
-
-//@Composable
-//@Preview
-//fun BottomNavigationBarPreview() {
-//
-//    BottomNavigationBar()
-//
-//}

@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                                 trackListInteractor,
                                 onClickTrack = {
                                     trackId.value = it
-                                    navState.navigateTo(ScreenRoute.PlayTrack.route)
+                                    navState.navigateToMusicPlayer()
                                 },
                             )
                         },
@@ -57,7 +57,13 @@ class MainActivity : ComponentActivity() {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
                         playTrackContent = {
-                            TrackScreen(trackId.value)
+                            TrackScreen(
+                                paddingValues = paddingValues,
+                                trackId = trackId.value,
+                                onBackPressed = {
+                                    navState.navHostController.popBackStack()
+                                }
+                            )
                         },
                     )
                 }
