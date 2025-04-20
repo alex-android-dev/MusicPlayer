@@ -27,5 +27,7 @@ private fun TrackDto.mapToTrack(): Track = Track(
     coverUrl = this.album.cover,
     compositionUrl = this.compositionUrl,
     id = this.id,
+    albumName = this.album.name,
+    albumId = this.album.id,
 )
 
