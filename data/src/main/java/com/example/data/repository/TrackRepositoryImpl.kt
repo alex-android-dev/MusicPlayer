@@ -15,7 +15,7 @@ class TrackRepositoryImpl() : TrackRepository {
     private val mapper = Mapper()
     private val apiService = ApiFactory.apiService
 
-    /** Метод возвращает результат в виде List или ошибку **/
+    /** Метод возвращает результат в виде List / Track или ошибку **/
     override suspend fun getTrackList(): Result<List<Track>> = withContext(Dispatchers.IO) {
         val response: ResponseContentDto? =
             apiService.loadChartTracks()
