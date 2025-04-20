@@ -1,4 +1,4 @@
-package com.example.presentation.track_list
+package com.example.presentation.track_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,5 +11,4 @@ class TrackListViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return TrackListViewModel(trackListInteractor) as T
     }
-
 }

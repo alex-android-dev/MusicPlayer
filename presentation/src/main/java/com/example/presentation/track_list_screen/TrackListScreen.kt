@@ -1,9 +1,10 @@
-package com.example.presentation.track_list
+package com.example.presentation.track_list_screen
 
 import DarkBlue
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -15,23 +16,33 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
-import com.example.presentation.components.SearchTrack
+import com.example.domain.interactors.TrackListInteractor
 import com.example.presentation.presentation.theme.TrackCard
+import com.example.presentation.track_list_screen.components.SearchTrack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackListView(
-    viewModel: TrackListViewModel
+    paddingValues: PaddingValues,
+    trackListInteractor: TrackListInteractor,
+    onClickTrack: (Long) -> Unit,
 ) {
+    val viewModel: TrackListViewModel = viewModel(
+        factory = TrackListViewModelFactory(trackListInteractor)
+    )
+
     val screenState = viewModel.trackListStatus.collectAsState()
 
     Column(
+        Modifier.padding(paddingValues)
     ) {
         /** Стейт для поиска **/
         val searchText = remember { mutableStateOf("") }
@@ -72,7 +83,12 @@ fun TrackListView(
                         items = state.trackList,
                         key = { it.id },
                     ) {
-                        TrackCard(it)
+                        TrackCard(
+                            it,
+                            onClickItem = { trackId ->
+                                onClickTrack(trackId)
+                            }
+                        )
                     }
 
                 }

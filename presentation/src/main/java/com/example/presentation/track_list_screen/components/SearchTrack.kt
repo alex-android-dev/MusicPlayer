@@ -1,4 +1,4 @@
-package com.example.presentation.components
+package com.example.presentation.track_list_screen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons

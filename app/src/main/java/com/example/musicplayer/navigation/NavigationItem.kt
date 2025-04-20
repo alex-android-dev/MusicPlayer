@@ -8,12 +8,12 @@ sealed class NavigationItem(
 ) {
 
     object Api : NavigationItem(
-        screen = ScreenRoute.TrackListApi,
+        screen = ScreenRoute.TrackApi,
         iconResourceId = R.drawable.ic_music_note,
     )
 
     object Downloaded : NavigationItem(
-        screen = ScreenRoute.TrackListDownloaded,
+        screen = ScreenRoute.TrackLocalList,
         iconResourceId = R.drawable.ic_downloaded,
     )
 

@@ -1,5 +1,6 @@
 package com.example.presentation.presentation.theme
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,12 +22,18 @@ import coil3.compose.AsyncImage
 import com.example.domain.entities.Track
 
 @Composable
-fun TrackCard(track: Track) {
+fun TrackCard(
+    track: Track,
+    onClickItem: (Long) -> Unit,
+) {
 
     Row(
         modifier = Modifier
             .padding(10.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onClickItem(track.id)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
 

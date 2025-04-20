@@ -8,16 +8,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.domain.interactors.TrackListInteractor
+import com.example.musicplayer.navigation.AppNavGraph
 import com.example.musicplayer.navigation.BottomNavigationBar
+import com.example.musicplayer.navigation.ScreenRoute
 import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
-import com.example.presentation.track_list.TrackListView
-import com.example.presentation.track_list.TrackListViewModel
-import com.example.presentation.track_list.TrackListViewModelFactory
+import com.example.presentation.track_list_screen.TrackListView
+import com.example.presentation.track_screen.TrackScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -27,24 +30,35 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            val trackId = remember { mutableLongStateOf(-1) }
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
-
-            val viewModel: TrackListViewModel = viewModel(
-                factory = TrackListViewModelFactory(trackListInteractor)
-            )
 
             MusicPlayerTheme {
                 Scaffold(
                     modifier = Modifier.Companion.fillMaxSize(),
                     bottomBar = { BottomNavigationBar(navState) },
-                ) { padding ->
-                    padding
+                ) { paddingValues ->
+
                     AppNavGraph(
                         navHostController = navState.navHostController,
-                        trackListApiContent = { TrackListView(viewModel) },
-                        trackListDownloadedContent = { },
+                        trackApiListContent = {
+                            TrackListView(
+                                paddingValues,
+                                trackListInteractor,
+                                onClickTrack = {
+                                    trackId.value = it
+                                    navState.navigateTo(ScreenRoute.PlayTrack.route)
+                                },
+                            )
+                        },
+                        trackLocalListContent = {
+                            Text("trackLocalListContent") // TODO Заглушка
+                        },
+                        playTrackContent = {
+                            TrackScreen(trackId.value)
+                        },
                     )
                 }
             }
