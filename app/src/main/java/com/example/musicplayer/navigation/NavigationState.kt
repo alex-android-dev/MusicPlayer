@@ -24,7 +24,6 @@ class NavigationState(
         }
     }
 
-
     fun navigateToMusicPlayer() {
         navHostController.navigate(ScreenRoute.PlayTrack.route)
     }

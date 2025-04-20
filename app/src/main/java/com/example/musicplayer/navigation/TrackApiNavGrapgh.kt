@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 
 fun NavGraphBuilder.trackApiNavGraph(
     trackApiListContent: @Composable () -> Unit,
-    playTrackContent: @Composable () -> Unit,
+    playTrackContent: @Composable (Long) -> Unit,
 ) {
 
     navigation(
@@ -19,7 +19,7 @@ fun NavGraphBuilder.trackApiNavGraph(
             trackApiListContent()
         }
         composable(ScreenRoute.PlayTrack.route) {
-            playTrackContent()
+            playTrackContent() // TODO заглушка
         }
     }
 }

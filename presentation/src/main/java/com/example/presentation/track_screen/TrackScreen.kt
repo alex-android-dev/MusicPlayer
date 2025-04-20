@@ -23,7 +23,6 @@ import com.example.presentation.track_screen.components.TrackInfoComponent
 
 @Composable
 fun TrackScreen(
-    paddingValues: PaddingValues,
     trackId: Long,
     onBackPressed: () -> Unit,
 ) {
@@ -32,7 +31,6 @@ fun TrackScreen(
 
     Scaffold(
         modifier = Modifier
-            .padding(paddingValues)
             .fillMaxSize(),
         topBar = {
             TopBar(
@@ -76,8 +74,8 @@ fun TrackScreen(
 @Composable
 fun TrackScreenPreview() {
     Scaffold { padding ->
+        padding
         TrackScreen(
-            padding,
             0L,
             onBackPressed = {},
         )

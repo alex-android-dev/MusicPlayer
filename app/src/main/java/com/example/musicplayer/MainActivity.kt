@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.AppNavGraph
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val trackId = remember { mutableLongStateOf(-1) }
+            val trackId = remember { mutableLongStateOf(-1) } // TODO заглушка
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
@@ -38,7 +39,16 @@ class MainActivity : ComponentActivity() {
             MusicPlayerTheme {
                 Scaffold(
                     modifier = Modifier.Companion.fillMaxSize(),
-                    bottomBar = { BottomNavigationBar(navState) },
+                    bottomBar = {
+                        val currentRoute = navState.navHostController.currentBackStackEntryAsState()
+                            .value?.destination?.route
+
+                        if (currentRoute !=
+                            ScreenRoute.PlayTrack.route
+                        ) {
+                            BottomNavigationBar(navState)
+                        }
+                    },
                 ) { paddingValues ->
 
                     AppNavGraph(
@@ -48,8 +58,7 @@ class MainActivity : ComponentActivity() {
                                 paddingValues,
                                 trackListInteractor,
                                 onClickTrack = {
-                                    trackId.value = it
-                                    navState.navigateToMusicPlayer()
+                                    navState.navigateTo(ScreenRoute.PlayTrack.route)
                                 },
                             )
                         },
@@ -58,8 +67,7 @@ class MainActivity : ComponentActivity() {
                         },
                         playTrackContent = {
                             TrackScreen(
-                                paddingValues = paddingValues,
-                                trackId = trackId.value,
+                                trackId = ,
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()
                                 }
