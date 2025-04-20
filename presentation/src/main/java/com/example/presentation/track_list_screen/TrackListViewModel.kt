@@ -24,6 +24,10 @@ class TrackListViewModel(
         TrackListState.Initial
     )
 
+    fun loadTrackListByName(name: String) = viewModelScope.launch {
+        trackListInteractor.loadTrackByName(name)
+    }
+
     fun loadTrackList() = viewModelScope.launch {
         trackListInteractor.loadTrackList()
     }

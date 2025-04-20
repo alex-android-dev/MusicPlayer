@@ -1,5 +1,6 @@
 package com.example.musicplayer
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,7 @@ import com.example.presentation.track_screen.TrackScreen
 
 class MainActivity : ComponentActivity() {
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +51,12 @@ class MainActivity : ComponentActivity() {
                             BottomNavigationBar(navState)
                         }
                     },
-                ) { paddingValues ->
+                ) {
 
                     AppNavGraph(
                         navHostController = navState.navHostController,
                         trackApiListContent = {
                             TrackListView(
-                                paddingValues,
                                 trackListInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)

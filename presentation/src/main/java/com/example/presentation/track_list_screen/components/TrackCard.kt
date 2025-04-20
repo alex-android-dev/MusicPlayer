@@ -26,7 +26,6 @@ fun TrackCard(
     track: Track,
     onClickItem: (Long) -> Unit,
 ) {
-
     Row(
         modifier = Modifier
             .padding(10.dp)
