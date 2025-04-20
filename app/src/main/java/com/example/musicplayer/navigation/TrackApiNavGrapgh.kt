@@ -19,7 +19,8 @@ fun NavGraphBuilder.trackApiNavGraph(
             trackApiListContent()
         }
         composable(ScreenRoute.PlayTrack.route) {
-            playTrackContent() // TODO заглушка
+            val trackId = it.arguments?.getString("track_id")?.toLong() ?: 0L
+            playTrackContent(trackId)
         }
     }
 }

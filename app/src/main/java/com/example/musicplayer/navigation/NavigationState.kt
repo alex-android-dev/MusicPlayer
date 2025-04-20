@@ -1,5 +1,6 @@
 package com.example.musicplayer.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
@@ -24,8 +25,8 @@ class NavigationState(
         }
     }
 
-    fun navigateToMusicPlayer() {
-        navHostController.navigate(ScreenRoute.PlayTrack.route)
+    fun navigateToMusicPlayer(trackId: Long) {
+        navHostController.navigate(ScreenRoute.PlayTrack.getRouteWithArgs(trackId))
     }
 }
 

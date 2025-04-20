@@ -2,6 +2,7 @@ package com.example.musicplayer
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -57,17 +58,18 @@ class MainActivity : ComponentActivity() {
                             TrackListView(
                                 paddingValues,
                                 trackListInteractor,
-                                onClickTrack = {
-                                    navState.navigateTo(ScreenRoute.PlayTrack.route)
+                                onClickTrack = { trackId ->
+                                    navState.navigateToMusicPlayer(trackId)
                                 },
                             )
                         },
                         trackLocalListContent = {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
-                        playTrackContent = {
+                        playTrackContent = { trackId ->
+                            Log.d("MainActivity", "trackId: $trackId")
                             TrackScreen(
-                                trackId = ,
+                                trackId = trackId,
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()
                                 }
