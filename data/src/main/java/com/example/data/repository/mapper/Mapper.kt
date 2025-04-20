@@ -1,29 +1,31 @@
 package com.example.data.repository.mapper
 
-import com.example.data.repository.model.ChartContentDto
+import com.example.data.repository.model.TrackDto
 import com.example.domain.entities.Track
 
 internal class Mapper {
 
-    fun mapChartContentToTrackList(chartContent: ChartContentDto): List<Track> {
-
+    fun mapTrackListDtoToTrackList(trackListDto: List<TrackDto>): List<Track> {
         val trackList: MutableList<Track> = mutableListOf()
 
-        chartContent.tracksContentDto.trackListDto.forEach { trackDto ->
-
-            val track = Track(
-                compositionName = trackDto.name,
-                authorName = trackDto.artist.name,
-                coverUrl = trackDto.album.cover,
-                compositionUrl = trackDto.compositionUrl,
-                id = trackDto.id,
-            )
+        trackListDto.forEach { trackDto ->
+            val track = trackDto.mapToTrack()
 
             trackList.add(track)
         }
 
-        return trackList.toList()
+        return trackList
     }
 
+    fun mapTrackDtoToTrack(trackDto: TrackDto): Track = trackDto.mapToTrack()
 
 }
+
+private fun TrackDto.mapToTrack(): Track = Track(
+    compositionName = this.name,
+    authorName = this.artist.name,
+    coverUrl = this.album.cover,
+    compositionUrl = this.compositionUrl,
+    id = this.id,
+)
+

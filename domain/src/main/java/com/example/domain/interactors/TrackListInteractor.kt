@@ -5,6 +5,7 @@ import com.example.domain.TrackRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+/** Интерактор для получения стейта и обработки ошибок **/
 class TrackListInteractor(
     private val trackRepository: TrackRepository
 ) {
@@ -12,16 +13,33 @@ class TrackListInteractor(
     val trackListStatus = backTrackListStatus.asStateFlow()
 
 
-    /** Загрузка треков **/
+    /** Загрузка чарт треков **/
     suspend fun loadTrackList() {
         backTrackListStatus.emit(TrackListState.Loading)
 
-        val result = trackRepository.getTrackList()
+        val result = trackRepository.getChartTrackList()
 
         if (result.isSuccess) {
             result.getOrNull()?.let { backTrackListStatus.emit(TrackListState.Loaded(it)) }
         } else {
-            result.exceptionOrNull()?.message?.let { backTrackListStatus.emit(TrackListState.Failed(msg = it)) }
+            result.exceptionOrNull()?.message?.let {
+                backTrackListStatus.emit(TrackListState.Failed(it))
+            }
+        }
+    }
+
+    /** Загрузка треков по имени трека **/
+    suspend fun loadTrackByName(name: String) {
+        backTrackListStatus.emit(TrackListState.Loading)
+
+        val result = trackRepository.getTracksByName(name)
+
+        if (result.isSuccess) {
+            result.getOrNull()?.let { backTrackListStatus.emit(TrackListState.Loaded(it)) }
+        } else {
+            result.exceptionOrNull()?.message?.let {
+                backTrackListStatus.emit(TrackListState.Failed(it))
+            }
         }
     }
 
