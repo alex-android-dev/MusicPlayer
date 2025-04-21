@@ -1,18 +1,22 @@
 package com.example.musicplayer
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.domain.interactors.PlayTrackInteractor
@@ -25,9 +29,14 @@ import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
 import com.example.presentation.track_screen.PlayTrackScreen
 import com.example.presentation.track_screen.PlayTrackViewModelFactory
+import com.example.presentation.track_screen.media_player.MediaService
+import com.example.presentation.track_screen.media_player.media_service.AppPlayer
 
 class MainActivity : ComponentActivity() {
+    private var isServiceRunning = false
 
+
+    @OptIn(UnstableApi::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +48,7 @@ class MainActivity : ComponentActivity() {
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
             val playTrackInteractor = PlayTrackInteractor(repositoryImpl)
+            AppPlayer.initPlayer(LocalContext.current) // todo подумать куда можно перенести
 
             MusicPlayerTheme {
                 Scaffold(
@@ -69,6 +79,7 @@ class MainActivity : ComponentActivity() {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
                         playTrackContent = { trackId ->
+                            startMusicService()
                             Log.d("MainActivity", "trackId: $trackId")
                             PlayTrackScreen(
                                 trackId = trackId,
@@ -85,4 +96,13 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
+    private fun startMusicService() {
+        if (isServiceRunning == false) {
+            val intent = Intent(this, MediaService::class.java)
+            startForegroundService(intent)
+            isServiceRunning = true
+        }
+    }
 }
+

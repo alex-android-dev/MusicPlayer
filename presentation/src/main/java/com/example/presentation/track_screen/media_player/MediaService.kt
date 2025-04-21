@@ -1,16 +1,13 @@
 package com.example.presentation.track_screen.media_player
 
 import android.content.Intent
-import android.os.Build
 import androidx.annotation.OptIn
-import androidx.media3.common.AudioAttributes
-import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
+import com.example.presentation.track_screen.media_player.media_service.AppPlayer
 import com.techullurgy.media3musicplayer.media_player.media_notification.MusicNotificationManager
 
 /** Сервис для прослушивания музыки **/
@@ -20,31 +17,25 @@ class MediaService : MediaSessionService() {
     private lateinit var musicNotificationManager: MusicNotificationManager
 
 
+    @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
+        Log.d("MediaService", "onCreate")
 
-        val player = getPlayer()
+        AppPlayer.initPlayer(this)
+
+        val player = AppPlayer.getPlayer() ?: return
 
         mediaSession = MediaSession.Builder(this, player).build()
-
         musicNotificationManager = MusicNotificationManager(this, player)
     }
 
     @OptIn(UnstableApi::class)
-    private fun getPlayer(): ExoPlayer = ExoPlayer.Builder(this)
-        .setAudioAttributes(getAudioAttributesForApp(), true)
-        .setHandleAudioBecomingNoisy(true)
-        .setTrackSelector(DefaultTrackSelector(this))
-        .build()
-
-    @OptIn(UnstableApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            musicNotificationManager.startMusicNotificationService(
-                mediaSession = mediaSession,
-                mediaSessionService = this
-            )
-        }
+        musicNotificationManager.startMusicNotificationService(
+            mediaSession = mediaSession,
+            mediaSessionService = this
+        )
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -64,7 +55,4 @@ class MediaService : MediaSessionService() {
         }
     }
 
-    private fun getAudioAttributesForApp() =
-        AudioAttributes.Builder().setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-            .setUsage(C.USAGE_MEDIA).build()
 }

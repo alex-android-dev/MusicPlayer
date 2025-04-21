@@ -1,5 +1,6 @@
 package com.example.presentation.track_screen.media_player
 
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -39,6 +40,7 @@ class MusicServiceHandler(
     fun setMediaItemList(mediaItems: List<MediaItem>) {
         exoPlayer.setMediaItems(mediaItems)
         exoPlayer.prepare()
+        Log.d("MusicServiceHandler", "player ${exoPlayer.isPlaying}")
     }
 
 

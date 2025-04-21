@@ -19,17 +19,13 @@ class MusicNotificationManager(
     private val context: Context,
     private val exoPlayer: Player
 ) {
-
     private val musicNotificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createMusicNotificationChannel()
-        }
+        createMusicNotificationChannel()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createMusicNotificationChannel() {
         val musicNotificationChannel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
@@ -46,15 +42,12 @@ class MusicNotificationManager(
             context,
             NOTIFICATION_ID,
             NOTIFICATION_CHANNEL_ID
-        )
-            .setMediaDescriptionAdapter(
-                MusicNotificationDescriptorAdapter(
-                    context = context,
-                    pendingIntent = mediaSession.sessionActivity
-                )
+        ).setMediaDescriptionAdapter(
+            MusicNotificationDescriptorAdapter(
+                context = context,
+                pendingIntent = mediaSession.sessionActivity
             )
-            .setSmallIconResourceId(R.drawable.ic_music_note)
-            .build()
+        ).setSmallIconResourceId(R.drawable.ic_music_note).build()
             .also {
                 it.setMediaSessionToken(mediaSession.platformToken) // TODO
                 it.setUseFastForwardActionInCompactView(true)
@@ -66,7 +59,6 @@ class MusicNotificationManager(
             }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @UnstableApi
     fun startMusicNotificationService(
         mediaSessionService: MediaSessionService,
@@ -76,7 +68,6 @@ class MusicNotificationManager(
         startForegroundMusicService(mediaSessionService)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun startForegroundMusicService(mediaSessionService: MediaSessionService) {
         val musicNotification = Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setCategory(Notification.CATEGORY_SERVICE)
