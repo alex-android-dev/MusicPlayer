@@ -31,9 +31,6 @@ import com.example.presentation.track_screen.PlayTrackScreen
 import com.example.presentation.track_screen.PlayTrackViewModelFactory
 
 class MainActivity : ComponentActivity() {
-    private var isServiceRunning = false
-
-
     @OptIn(UnstableApi::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -42,6 +39,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
