@@ -29,8 +29,6 @@ import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
 import com.example.presentation.track_screen.PlayTrackScreen
 import com.example.presentation.track_screen.PlayTrackViewModelFactory
-import com.example.presentation.track_screen.media_player.MediaService
-import com.example.presentation.track_screen.media_player.media_service.AppPlayer
 
 class MainActivity : ComponentActivity() {
     private var isServiceRunning = false
@@ -48,7 +46,6 @@ class MainActivity : ComponentActivity() {
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
             val playTrackInteractor = PlayTrackInteractor(repositoryImpl)
-            AppPlayer.initPlayer(LocalContext.current) // todo подумать куда можно перенести
 
             MusicPlayerTheme {
                 Scaffold(
@@ -79,7 +76,6 @@ class MainActivity : ComponentActivity() {
                             Text("trackLocalListContent") // TODO Заглушка
                         },
                         playTrackContent = { trackId ->
-                            startMusicService()
                             Log.d("MainActivity", "trackId: $trackId")
                             PlayTrackScreen(
                                 trackId = trackId,
@@ -96,13 +92,13 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
-    private fun startMusicService() {
-        if (isServiceRunning == false) {
-            val intent = Intent(this, MediaService::class.java)
-            startForegroundService(intent)
-            isServiceRunning = true
-        }
-    }
+//
+//    private fun startMusicService() {
+//        if (isServiceRunning == false) {
+//            val intent = Intent(this, MediaService::class.java)
+//            startForegroundService(intent)
+//            isServiceRunning = true
+//        }
+//    }
 }
 

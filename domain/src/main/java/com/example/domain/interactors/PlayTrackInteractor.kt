@@ -55,9 +55,10 @@ class PlayTrackInteractor(
             }
         }
     }
+
 }
 
-fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+private fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
     if (index1 == index2) return
     val temp = this[index1]
     this[index1] = this[index2]

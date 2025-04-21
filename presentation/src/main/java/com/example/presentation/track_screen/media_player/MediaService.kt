@@ -2,57 +2,47 @@ package com.example.presentation.track_screen.media_player
 
 import android.content.Intent
 import androidx.annotation.OptIn
-import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.CommandButton
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
-import com.example.presentation.track_screen.media_player.media_service.AppPlayer
-import com.techullurgy.media3musicplayer.media_player.media_notification.MusicNotificationManager
+import com.example.presentation.R
 
 /** Сервис для прослушивания музыки **/
-class MediaService : MediaSessionService() {
+class MusicService : MediaSessionService() {
+    private var mediaSession: MediaSession? = null
 
-    private lateinit var mediaSession: MediaSession
-    private lateinit var musicNotificationManager: MusicNotificationManager
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? =
+        mediaSession
 
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
-        Log.d("MediaService", "onCreate")
+        val player = ExoPlayer.Builder(this).build()
 
-        AppPlayer.initPlayer(this)
+        val nextButton = CommandButton.Builder()
+            .setIconResId(R.drawable.ic_skip_next)
+            .setPlayerCommand(ExoPlayer.COMMAND_SEEK_TO_NEXT)
+            .build()
 
-        val player = AppPlayer.getPlayer() ?: return
-
-        mediaSession = MediaSession.Builder(this, player).build()
-        musicNotificationManager = MusicNotificationManager(this, player)
+        mediaSession = MediaSession.Builder(this, player)
+            .setCommandButtonsForMediaItems(mutableListOf(nextButton))
+            .build()
     }
 
-    @OptIn(UnstableApi::class)
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        musicNotificationManager.startMusicNotificationService(
-            mediaSession = mediaSession,
-            mediaSessionService = this
-        )
-        return super.onStartCommand(intent, flags, startId)
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        stopSelf()
     }
-
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession =
-        mediaSession
-
 
     override fun onDestroy() {
-        super.onDestroy()
-        mediaSession.apply {
+        mediaSession?.run {
+            player.release()
             release()
-            if (player.playbackState != Player.STATE_IDLE) {
-                player.seekTo(0)
-                player.playWhenReady = false
-                player.stop()
-            }
+            mediaSession = null
         }
+        super.onDestroy()
     }
 
 }

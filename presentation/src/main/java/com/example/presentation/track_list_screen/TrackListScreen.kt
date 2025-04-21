@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
 import com.example.domain.interactors.TrackListInteractor
+import com.example.presentation.components.LoadingScreen
 import com.example.presentation.presentation.theme.TrackCard
 import com.example.presentation.track_list_screen.components.SearchTrack
 import com.example.presentation.track_screen.components.TopBar
@@ -67,66 +68,60 @@ fun TrackListView(
 
         val currentPadding = if (isSearching) paddingValuesSecond else padding
 
-            Column(
-                Modifier.padding(currentPadding)
-            ) {
-                /** Стейт для поиска **/
-                val searchText = remember { mutableStateOf("") }
-                val expanded = remember { mutableStateOf(false) }
+        Column(
+            Modifier.padding(currentPadding)
+        ) {
+            /** Стейт для поиска **/
+            val searchText = remember { mutableStateOf("") }
+            val expanded = remember { mutableStateOf(false) }
 
-                SearchTrack(
-                    text = searchText.value,
-                    expanded = expanded.value,
-                    onSearchTextChanged = { searchText.value = it },
-                    onExpandedChange = { expanded.value = it },
-                    onSearchTextInput = {
-                        viewModel.loadTrackListByName(searchText.value)
-                        isSearching = true
-                    },
-                )
+            SearchTrack(
+                text = searchText.value,
+                expanded = expanded.value,
+                onSearchTextChanged = { searchText.value = it },
+                onExpandedChange = { expanded.value = it },
+                onSearchTextInput = {
+                    viewModel.loadTrackListByName(searchText.value)
+                    isSearching = true
+                },
+            )
 
-                Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(20.dp))
 
-                when (val state = screenState.value) {
-                    is TrackListState.Initial -> {}
+            when (val state = screenState.value) {
+                is TrackListState.Initial -> {}
 
-                    is TrackListState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                is TrackListState.Loading -> {
+                    LoadingScreen()
+                }
+
+                is TrackListState.Loaded -> {
+                    val lazyStateList = rememberLazyListState()
+
+                    LazyColumn(
+                        modifier = Modifier.padding(),
+                        state = lazyStateList
+                    ) {
+
+                        items(
+                            items = state.trackList,
+                            key = { it.id },
                         ) {
-                            CircularProgressIndicator(color = DarkBlue)
-                            Log.d("TrackListView", "Loading")
+                            TrackCard(
+                                it,
+                                onClickItem = { trackId ->
+                                    onClickTrack(trackId)
+                                }
+                            )
                         }
-                    }
-
-                    is TrackListState.Loaded -> {
-                        val lazyStateList = rememberLazyListState()
-
-                        LazyColumn(
-                            modifier = Modifier.padding(),
-                            state = lazyStateList
-                        ) {
-
-                            items(
-                                items = state.trackList,
-                                key = { it.id },
-                            ) {
-                                TrackCard(
-                                    it,
-                                    onClickItem = { trackId ->
-                                        onClickTrack(trackId)
-                                    }
-                                )
-                            }
-
-                        }
-                    }
-
-                    is TrackListState.Failed -> {
 
                     }
                 }
+
+                is TrackListState.Failed -> {
+
+                }
             }
+        }
     }
 }
