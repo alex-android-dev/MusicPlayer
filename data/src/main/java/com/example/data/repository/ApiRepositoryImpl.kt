@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /** Имплементация репозитория **/
-class TrackRepositoryImpl() : TrackRepository {
+class ApiRepositoryImpl() : TrackRepository {
     private val mapper = Mapper()
     private val apiService = ApiFactory.apiService
 

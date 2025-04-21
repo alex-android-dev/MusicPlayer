@@ -1,7 +1,7 @@
 package com.example.musicplayer
 
+import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +12,12 @@ import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.data.repository.TrackRepositoryImpl
+import com.example.data.repository.ApiRepositoryImpl
+import com.example.data.repository.LocalRepositoryImpl
+import com.example.data.repository.local.ContentResolverHelper
 import com.example.domain.interactors.PlayTrackInteractor
 import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.AppNavGraph
@@ -28,9 +27,15 @@ import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
 import com.example.presentation.track_screen.PlayTrackScreen
-import com.example.presentation.track_screen.PlayTrackViewModelFactory
 
 class MainActivity : ComponentActivity() {
+
+    private val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Manifest.permission.READ_MEDIA_AUDIO
+    } else {
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    }
+
     @OptIn(UnstableApi::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -38,12 +43,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        setContent {
 
+
+        setContent {
             val navState = rememberNavigationState()
-            val repositoryImpl = TrackRepositoryImpl()
-            val trackListInteractor = TrackListInteractor(repositoryImpl)
-            val playTrackInteractor = PlayTrackInteractor(repositoryImpl)
+            val apiRepositoryImpl = ApiRepositoryImpl()
+            val apiInteractor = TrackListInteractor(apiRepositoryImpl)
+
+            val localRepositoryImpl = LocalRepositoryImpl(ContentResolverHelper(this))
+            val localInteractor = TrackListInteractor(localRepositoryImpl)
+
+            val playTrackInteractor = PlayTrackInteractor(apiRepositoryImpl)
 
             MusicPlayerTheme {
                 Scaffold(
@@ -61,17 +71,24 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
                     AppNavGraph(
                         navHostController = navState.navHostController,
+
                         trackApiListContent = {
                             TrackListView(
                                 padding = padding,
-                                interactor = trackListInteractor,
+                                interactor = apiInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)
                                 },
                             )
                         },
                         trackLocalListContent = {
-                            Text("trackLocalListContent") // TODO Заглушка
+                            TrackListView(
+                                padding = padding,
+                                interactor = localInteractor,
+                                onClickTrack = { trackId ->
+                                    navState.navigateToMusicPlayer(trackId)
+                                }
+                            )
                         },
                         playTrackContent = { trackId ->
                             Log.d("MainActivity", "trackId: $trackId")
@@ -90,13 +107,7 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-//
-//    private fun startMusicService() {
-//        if (isServiceRunning == false) {
-//            val intent = Intent(this, MediaService::class.java)
-//            startForegroundService(intent)
-//            isServiceRunning = true
-//        }
-//    }
 }
+
+
 
