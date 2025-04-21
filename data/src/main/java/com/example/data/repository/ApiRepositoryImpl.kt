@@ -68,7 +68,6 @@ class ApiRepositoryImpl() : TrackRepository {
 
     override suspend fun getTrackById(id: Long): Result<Track> = withContext(Dispatchers.IO) {
         val response: TrackDto? = apiService.loadTrackByTrackId(id.toString())
-
         if (response == null) return@withContext throwTrackNetworkError()
 
         val track: Track? = mapper.mapTrackDtoToTrack(response)

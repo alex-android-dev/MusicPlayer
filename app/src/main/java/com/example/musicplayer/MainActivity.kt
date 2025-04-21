@@ -48,12 +48,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navState = rememberNavigationState()
             val apiRepositoryImpl = ApiRepositoryImpl()
-            val apiInteractor = TrackListInteractor(apiRepositoryImpl)
+            val apiTrackListInteractor = TrackListInteractor(apiRepositoryImpl)
 
-            val localRepositoryImpl = LocalRepositoryImpl(ContentResolverHelper(this))
-            val localInteractor = TrackListInteractor(localRepositoryImpl)
+            val localTrackListRepositoryImpl = LocalRepositoryImpl(ContentResolverHelper(this))
+            val localTrackListInteractor = TrackListInteractor(localTrackListRepositoryImpl)
 
-            val playTrackInteractor = PlayTrackInteractor(apiRepositoryImpl)
+            val apiPlayTrackInteractor = PlayTrackInteractor(apiRepositoryImpl)
+            val localPlayTrackInteractor = PlayTrackInteractor(localTrackListRepositoryImpl)
 
             MusicPlayerTheme {
                 Scaffold(
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         trackApiListContent = {
                             TrackListView(
                                 padding = padding,
-                                interactor = apiInteractor,
+                                interactor = apiTrackListInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)
                                 },
@@ -84,7 +85,7 @@ class MainActivity : ComponentActivity() {
                         trackLocalListContent = {
                             TrackListView(
                                 padding = padding,
-                                interactor = localInteractor,
+                                interactor = localTrackListInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)
                                 }
@@ -97,7 +98,7 @@ class MainActivity : ComponentActivity() {
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()
                                 },
-                                interactor = playTrackInteractor,
+                                interactor = apiPlayTrackInteractor,
                             )
                         },
                     )

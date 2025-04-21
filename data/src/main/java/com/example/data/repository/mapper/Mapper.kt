@@ -1,5 +1,6 @@
 package com.example.data.repository.mapper
 
+import android.util.Log
 import com.example.data.repository.model.TrackDto
 import com.example.domain.entities.Track
 
@@ -17,7 +18,10 @@ internal class Mapper {
         return trackList
     }
 
-    fun mapTrackDtoToTrack(trackDto: TrackDto): Track = trackDto.mapToTrack()
+    fun mapTrackDtoToTrack(trackDto: TrackDto): Track {
+        Log.d("Mapper", "track: $trackDto")
+        return trackDto.mapToTrack()
+    }
 
 }
 

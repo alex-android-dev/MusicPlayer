@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.repository.local.ContentResolverHelper
 import com.example.domain.TrackRepository
 import com.example.domain.entities.Track
@@ -14,6 +15,7 @@ class LocalRepositoryImpl(
 
     override suspend fun getChartTrackList(): Result<List<Track>> = withContext(Dispatchers.IO) {
         localTrackList = contentResolverHelper.getAudioData()
+        Log.d("LocalRepositoryImpl", "${localTrackList}")
         Result.success(localTrackList)
     }
 
