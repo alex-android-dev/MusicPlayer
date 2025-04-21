@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -39,11 +40,12 @@ import com.example.presentation.track_screen.components.TopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackListView(
-    trackListInteractor: TrackListInteractor,
+    padding: PaddingValues,
+    interactor: TrackListInteractor,
     onClickTrack: (Long) -> Unit,
 ) {
     val viewModel: TrackListViewModel = viewModel(
-        factory = TrackListViewModelFactory(trackListInteractor)
+        factory = TrackListViewModelFactory(interactor)
     )
 
     val screenState = viewModel.trackListStatus.collectAsState()
@@ -63,68 +65,68 @@ fun TrackListView(
         }
     ) { paddingValuesSecond ->
 
-        val padding = if (isSearching) paddingValuesSecond else paddingValuesSecond
+        val currentPadding = if (isSearching) paddingValuesSecond else padding
 
-        Column(
-            Modifier.padding(padding)
-        ) {
-            /** Стейт для поиска **/
-            val searchText = remember { mutableStateOf("") }
-            val expanded = remember { mutableStateOf(false) }
+            Column(
+                Modifier.padding(currentPadding)
+            ) {
+                /** Стейт для поиска **/
+                val searchText = remember { mutableStateOf("") }
+                val expanded = remember { mutableStateOf(false) }
 
-            SearchTrack(
-                text = searchText.value,
-                expanded = expanded.value,
-                onSearchTextChanged = { searchText.value = it },
-                onExpandedChange = { expanded.value = it },
-                onSearchTextInput = {
-                    viewModel.loadTrackListByName(searchText.value)
-                    isSearching = true
-                },
-            )
+                SearchTrack(
+                    text = searchText.value,
+                    expanded = expanded.value,
+                    onSearchTextChanged = { searchText.value = it },
+                    onExpandedChange = { expanded.value = it },
+                    onSearchTextInput = {
+                        viewModel.loadTrackListByName(searchText.value)
+                        isSearching = true
+                    },
+                )
 
-            Spacer(Modifier.height(20.dp))
+                Spacer(Modifier.height(20.dp))
 
-            when (val state = screenState.value) {
-                is TrackListState.Initial -> {}
+                when (val state = screenState.value) {
+                    is TrackListState.Initial -> {}
 
-                is TrackListState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(color = DarkBlue)
-                        Log.d("TrackListView", "Loading")
-                    }
-                }
-
-                is TrackListState.Loaded -> {
-                    val lazyStateList = rememberLazyListState()
-
-                    LazyColumn(
-                        modifier = Modifier.padding(),
-                        state = lazyStateList
-                    ) {
-
-                        items(
-                            items = state.trackList,
-                            key = { it.id },
+                    is TrackListState.Loading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            TrackCard(
-                                it,
-                                onClickItem = { trackId ->
-                                    onClickTrack(trackId)
-                                }
-                            )
+                            CircularProgressIndicator(color = DarkBlue)
+                            Log.d("TrackListView", "Loading")
                         }
+                    }
+
+                    is TrackListState.Loaded -> {
+                        val lazyStateList = rememberLazyListState()
+
+                        LazyColumn(
+                            modifier = Modifier.padding(),
+                            state = lazyStateList
+                        ) {
+
+                            items(
+                                items = state.trackList,
+                                key = { it.id },
+                            ) {
+                                TrackCard(
+                                    it,
+                                    onClickItem = { trackId ->
+                                        onClickTrack(trackId)
+                                    }
+                                )
+                            }
+
+                        }
+                    }
+
+                    is TrackListState.Failed -> {
 
                     }
-                }
-
-                is TrackListState.Failed -> {
-
                 }
             }
-        }
     }
 }

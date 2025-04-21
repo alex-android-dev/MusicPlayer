@@ -53,12 +53,13 @@ class MainActivity : ComponentActivity() {
                             BottomNavigationBar(navState)
                         }
                     },
-                ) {
+                ) { padding ->
                     AppNavGraph(
                         navHostController = navState.navHostController,
                         trackApiListContent = {
                             TrackListView(
-                                trackListInteractor,
+                                padding = padding,
+                                interactor = trackListInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)
                                 },
