@@ -31,7 +31,7 @@ class TrackRepositoryImpl() : TrackRepository {
         }
     }
 
-    override suspend fun getTracksByAlbum(id: Long): Result<List<Track>> =
+    override suspend fun getTracksByAlbumId(id: Long): Result<List<Track>> =
         withContext(Dispatchers.IO) {
             val response: ResponseContentDto? = apiService.loadTrackListByAlbumId(id.toString())
 

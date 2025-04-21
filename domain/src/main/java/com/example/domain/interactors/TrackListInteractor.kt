@@ -9,36 +9,36 @@ import kotlinx.coroutines.flow.asStateFlow
 class TrackListInteractor(
     private val trackRepository: TrackRepository
 ) {
-    private val backTrackListStatus = MutableStateFlow<TrackListState>(TrackListState.Initial)
-    val trackListStatus = backTrackListStatus.asStateFlow()
+    private val backTrackListState = MutableStateFlow<TrackListState>(TrackListState.Initial)
+    val trackListState = backTrackListState.asStateFlow()
 
 
     /** Загрузка чарт треков **/
     suspend fun loadTrackList() {
-        backTrackListStatus.emit(TrackListState.Loading)
+        backTrackListState.emit(TrackListState.Loading)
 
         val result = trackRepository.getChartTrackList()
 
         if (result.isSuccess) {
-            result.getOrNull()?.let { backTrackListStatus.emit(TrackListState.Loaded(it)) }
+            result.getOrNull()?.let { backTrackListState.emit(TrackListState.Loaded(it)) }
         } else {
             result.exceptionOrNull()?.message?.let {
-                backTrackListStatus.emit(TrackListState.Failed(it))
+                backTrackListState.emit(TrackListState.Failed(it))
             }
         }
     }
 
     /** Загрузка треков по имени трека **/
     suspend fun loadTrackByName(name: String) {
-        backTrackListStatus.emit(TrackListState.Loading)
+        backTrackListState.emit(TrackListState.Loading)
 
         val result = trackRepository.getTracksByName(name)
 
         if (result.isSuccess) {
-            result.getOrNull()?.let { backTrackListStatus.emit(TrackListState.Loaded(it)) }
+            result.getOrNull()?.let { backTrackListState.emit(TrackListState.Loaded(it)) }
         } else {
             result.exceptionOrNull()?.message?.let {
-                backTrackListStatus.emit(TrackListState.Failed(it))
+                backTrackListState.emit(TrackListState.Failed(it))
             }
         }
     }

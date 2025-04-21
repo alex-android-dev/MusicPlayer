@@ -1,21 +1,25 @@
 package com.example.musicplayer
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.data.repository.TrackRepositoryImpl
+import com.example.domain.interactors.PlayTrackInteractor
 import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.AppNavGraph
 import com.example.musicplayer.navigation.BottomNavigationBar
@@ -23,10 +27,14 @@ import com.example.musicplayer.navigation.ScreenRoute
 import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
-import com.example.presentation.track_screen.TrackScreen
+import com.example.presentation.track_screen.PlayTrackScreen
+import com.example.presentation.track_screen.PlayTrackViewModelFactory
 
 class MainActivity : ComponentActivity() {
+    private var isServiceRunning = false
 
+
+    @OptIn(UnstableApi::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +45,7 @@ class MainActivity : ComponentActivity() {
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
+            val playTrackInteractor = PlayTrackInteractor(repositoryImpl)
 
             MusicPlayerTheme {
                 Scaffold(
@@ -51,13 +60,13 @@ class MainActivity : ComponentActivity() {
                             BottomNavigationBar(navState)
                         }
                     },
-                ) {
-
+                ) { padding ->
                     AppNavGraph(
                         navHostController = navState.navHostController,
                         trackApiListContent = {
                             TrackListView(
-                                trackListInteractor,
+                                padding = padding,
+                                interactor = trackListInteractor,
                                 onClickTrack = { trackId ->
                                     navState.navigateToMusicPlayer(trackId)
                                 },
@@ -68,11 +77,12 @@ class MainActivity : ComponentActivity() {
                         },
                         playTrackContent = { trackId ->
                             Log.d("MainActivity", "trackId: $trackId")
-                            TrackScreen(
+                            PlayTrackScreen(
                                 trackId = trackId,
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()
-                                }
+                                },
+                                interactor = playTrackInteractor,
                             )
                         },
                     )
@@ -82,4 +92,13 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+//
+//    private fun startMusicService() {
+//        if (isServiceRunning == false) {
+//            val intent = Intent(this, MediaService::class.java)
+//            startForegroundService(intent)
+//            isServiceRunning = true
+//        }
+//    }
 }
+

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.domain.TrackListState
 import com.example.domain.interactors.TrackListInteractor
+import com.example.presentation.components.LoadingScreen
 import com.example.presentation.presentation.theme.TrackCard
 import com.example.presentation.track_list_screen.components.SearchTrack
 import com.example.presentation.track_screen.components.TopBar
@@ -39,12 +41,14 @@ import com.example.presentation.track_screen.components.TopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackListView(
-    trackListInteractor: TrackListInteractor,
+    padding: PaddingValues,
+    interactor: TrackListInteractor,
     onClickTrack: (Long) -> Unit,
 ) {
     val viewModel: TrackListViewModel = viewModel(
-        factory = TrackListViewModelFactory(trackListInteractor)
+        factory = TrackListViewModelFactory(interactor)
     )
+
     val screenState = viewModel.trackListStatus.collectAsState()
     var isSearching by rememberSaveable { mutableStateOf(false) }
 
@@ -62,10 +66,10 @@ fun TrackListView(
         }
     ) { paddingValuesSecond ->
 
-        val padding = if (isSearching) paddingValuesSecond else paddingValuesSecond
+        val currentPadding = if (isSearching) paddingValuesSecond else padding
 
         Column(
-            Modifier.padding(padding)
+            Modifier.padding(currentPadding)
         ) {
             /** Стейт для поиска **/
             val searchText = remember { mutableStateOf("") }
@@ -88,13 +92,7 @@ fun TrackListView(
                 is TrackListState.Initial -> {}
 
                 is TrackListState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(color = DarkBlue)
-                        Log.d("TrackListView", "Loading")
-                    }
+                    LoadingScreen()
                 }
 
                 is TrackListState.Loaded -> {
