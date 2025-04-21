@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.data.repository.TrackRepositoryImpl
+import com.example.domain.interactors.PlayTrackInteractor
 import com.example.domain.interactors.TrackListInteractor
 import com.example.musicplayer.navigation.AppNavGraph
 import com.example.musicplayer.navigation.BottomNavigationBar
@@ -22,6 +24,7 @@ import com.example.musicplayer.navigation.rememberNavigationState
 import com.example.presentation.theme.MusicPlayerTheme
 import com.example.presentation.track_list_screen.TrackListView
 import com.example.presentation.track_screen.PlayTrackScreen
+import com.example.presentation.track_screen.PlayTrackViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -35,6 +38,7 @@ class MainActivity : ComponentActivity() {
             val navState = rememberNavigationState()
             val repositoryImpl = TrackRepositoryImpl()
             val trackListInteractor = TrackListInteractor(repositoryImpl)
+            val playTrackInteractor = PlayTrackInteractor(repositoryImpl)
 
             MusicPlayerTheme {
                 Scaffold(
@@ -50,7 +54,6 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                 ) {
-
                     AppNavGraph(
                         navHostController = navState.navHostController,
                         trackApiListContent = {
@@ -70,7 +73,8 @@ class MainActivity : ComponentActivity() {
                                 trackId = trackId,
                                 onBackPressed = {
                                     navState.navHostController.popBackStack()
-                                }
+                                },
+                                interactor = playTrackInteractor,
                             )
                         },
                     )

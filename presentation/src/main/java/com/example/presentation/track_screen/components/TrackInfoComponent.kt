@@ -86,14 +86,14 @@ private fun TrackInfo(str: String) {
 @Preview
 private fun CurrentTrackInfoPreview(
 ) {
-
     val track = Track(
         id = 0,
         compositionName = "Composition Name",
         albumName = "Album Name",
         authorName = "Author Name",
         coverUrl = "",
-        compositionUrl = ""
+        compositionUrl = "",
+        albumId = 0L,
     )
 
     TrackInfoComponent(

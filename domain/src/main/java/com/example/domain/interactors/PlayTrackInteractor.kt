@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /** Интерактор - отдает список треков **/
-class MusicPlayerInteractor(
+class PlayTrackInteractor(
     private val trackRepository: TrackRepository
 ) {
 
