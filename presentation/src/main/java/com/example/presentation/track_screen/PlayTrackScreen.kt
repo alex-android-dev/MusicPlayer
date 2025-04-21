@@ -103,8 +103,6 @@ fun PlayTrackScreen(
                     )
                 }
             ) { padding ->
-                val stateTrackPaused = remember { mutableStateOf(true) }
-
                 when (val trackState = trackState.value) {
                     is Track -> {
                         Column(
@@ -113,7 +111,6 @@ fun PlayTrackScreen(
                             TrackInfoComponent(
                                 track = trackState
                             )
-
                             Spacer(modifier = Modifier.height(10.dp))
                             var isPaused by rememberSaveable { mutableStateOf(false) }
 
